@@ -1,13 +1,18 @@
 package eu.hansolo.crac2;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Constants {
+    private static final Logger LOGGER = Logger.getLogger(Constants.class.getName());
+
     private Constants() {}
 
     public static final String NODE_NAME = "NODE_NAME";
     public static final String getNodeName() {
         final String envVariable = System.getenv(NODE_NAME);
         if (null == envVariable) {
-            System.out.println("Environment variable " + NODE_NAME + " not found, default to CRaC2-Demo");
+            LOGGER.log(Level.INFO, "Environment variable " + NODE_NAME + " not found, default to CRaC2-Demo");
             return "CRaC2-Demo";
         } else {
             return envVariable;

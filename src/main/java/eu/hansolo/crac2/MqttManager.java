@@ -19,10 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 
 public class MqttManager {
-    private static final Logger           LOGGER                 = Logger.getLogger(MqttManager.class.getName());
-    private static final String           PRODUCTION_ENVIRONMENT = "production";
-    private static final String           STAGING_ENVIRONMENT    = "staging";
-    private static final String           TESTING_ENVIRONMENT    = "strato";
+    private static final Logger           LOGGER = Logger.getLogger(MqttManager.class.getName());
     private              Mqtt5AsyncClient asyncClient;
     private              AtomicBoolean    running;
 
@@ -56,7 +53,9 @@ public class MqttManager {
         return publish(topic, MqttQos.EXACTLY_ONCE, false, msg);
     }
     public CompletableFuture<Mqtt5PublishResult> publish(final String topic, final MqttQos qos, final boolean retain, final String msg) {
-        if (null == asyncClient || !asyncClient.getState().isConnected()) { connect(true); }
+        if (null == asyncClient || !asyncClient.getState().isConnected()) {
+            start();
+        }
         return asyncClient.publishWith()
                           .topic(topic)
                           .qos(qos)
@@ -142,10 +141,12 @@ public class MqttManager {
                                                  .serverPort(Constants.MQTT_PORT)
                                                  .sslWithDefaultConfig()
                                                  .addDisconnectedListener(context -> {
+                                                     /*
                                                      if (running.get()) {
                                                          context.getReconnector().reconnect(true).delay(10, TimeUnit.SECONDS);
                                                          LOGGER.log(Level.INFO, "Try to reconnect because of: " + context.getCause().getMessage());
                                                      }
+                                                     */
                                                  })
                                                  .buildAsync();
         return asyncClient;

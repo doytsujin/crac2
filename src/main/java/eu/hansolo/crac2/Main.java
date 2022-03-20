@@ -1,6 +1,9 @@
 package eu.hansolo.crac2;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
+import jdk.crac.Context;
+import jdk.crac.Core;
+import jdk.crac.Resource;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
