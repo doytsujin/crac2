@@ -3,7 +3,6 @@
 /output.txt
 /build/
 /out/
-*.jar
 *.tar.gz
 *.class
 *.log

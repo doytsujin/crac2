@@ -1,9 +1,7 @@
 package eu.hansolo.crac2;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
-import jdk.crac.Context;
-import jdk.crac.Core;
-import jdk.crac.Resource;
+import jdk.crac.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -36,7 +34,15 @@ public class Main implements Resource {
         };
 
         runtime.addShutdownHook(new Thread(() -> {
-            final String text = new StringBuilder().append(Constants.getNodeName()).append(" ").append("App stopped due to shutdown hook").toString();
+            /* Checkpoint will be created but app will not start restoring the checkpoint
+            try {
+                Core.checkpointRestore();
+            } catch (CheckpointException | RestoreException e) {
+                LOGGER.log(Level.SEVERE, "Error creating checkpoint. " + e);
+                System.out.println(e);
+            }
+            */
+            final String text = new StringBuilder().append(Constants.getNodeName()).append(" ").append("App stopped due to shutdown hook (" + counter + ")").toString();
             LOGGER.log(Level.INFO, text);
             mqttManager.publish(Constants.MQTT_TOPIC, MqttQos.AT_LEAST_ONCE, false, text);
             mqttManager.stop();

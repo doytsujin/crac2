@@ -1,4 +1,4 @@
-module eu.hansolo.crac2 {
+module eu.hansolo.cractwo {
 
     requires jdk.unsupported;
     requires java.logging;

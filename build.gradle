@@ -32,6 +32,15 @@ compileJava {
 }
 
 jar {
+    from {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+
     manifest {
         attributes(
                 'Build-By'              : System.properties['user.name'],
@@ -42,8 +51,8 @@ jar {
                 'Specification-Title'   : project.name,
                 'Specification-Version' : project.version,
                 'Implementation-Title'  : project.name,
+                'Class-Path'            : '${project.name}-${project-version}.jar',
                 'Main-Class'            : application.mainClass.get()
-
         )
     }
 }
